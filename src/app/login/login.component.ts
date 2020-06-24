@@ -1,5 +1,3 @@
-import { Observable } from 'rxjs';
-import { HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../_services/auth.service';
 import { TokenStorageService } from '../_services/token-storage.service';
@@ -29,12 +27,12 @@ export class LoginComponent implements OnInit {
     this.authService.login(this.form).subscribe(
       data => {
         console.log(data);
-        this.tokenStorage.saveToken(data.headers.get('Authorization'));
+        this.tokenStorage.saveToken(data.accesstoken);
         this.tokenStorage.saveUser(data);
 
         this.isLoginFailed = false;
         this.isLoggedIn = true;
-        //this.roles = this.tokenStorage.getUser().roles;
+        this.roles = this.tokenStorage.getUser().roles;
         this.reloadPage();
       },
       err => {
